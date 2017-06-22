@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import org.springframework.core.env.SystemEnvironmentPropertySource;
 
-public abstract class UserDao {
+public class UserDao {
 	// 방식1
 	/*private Connection getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
@@ -59,8 +59,9 @@ public abstract class UserDao {
 	// 방식3
 	private ConnectionMaker connectionMaker;
 	
-	public UserDao() {
-		connectionMaker = new DConnectionMaker();
+	public UserDao(ConnectionMaker connectionMaker) {
+		/*connectionMaker = new DConnectionMaker(); // 구체적인 클래스 */	
+		this.connectionMaker = connectionMaker;
 	}
 	
 	public void add(User user) throws ClassNotFoundException, SQLException {
@@ -94,24 +95,5 @@ public abstract class UserDao {
 		rs.close();
 		ps.close();
 		return user;
-	}
-	
-	public static void main(String[] args) throws ClassNotFoundException, SQLException{
-		// 방식 1
-		/*UserDao dao = new UserDao();
-		User user = new User();
-		user.setId("cherry");
-		user.setName("hyeonyoung");
-		user.setPassword("1111");
-		
-		dao.add(user);
-		
-		System.out.println(user.getId() + "등록성공");
-		
-		User user2 = dao.get(user.getId());
-		
-		System.out.println(user2.getName());
-		System.out.println(user2.getPassword());
-		System.out.println(user2.getId() + "조회성공");*/
 	}
 }
