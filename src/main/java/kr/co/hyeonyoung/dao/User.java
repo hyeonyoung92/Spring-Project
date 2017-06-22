@@ -1,4 +1,4 @@
-package kr.co.hyeonyoung;
+package kr.co.hyeonyoung.dao;
 
 public class User {
 	public String id;

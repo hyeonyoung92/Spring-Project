@@ -1,4 +1,4 @@
-package kr.co.hyeonyoung;
+package kr.co.hyeonyoung.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package kr.co.hyeonyoung;
+package kr.co.hyeonyoung.dao;
 
 import java.text.DateFormat;
 import java.util.Date;

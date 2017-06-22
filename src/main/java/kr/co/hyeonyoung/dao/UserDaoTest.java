@@ -1,17 +1,15 @@
-package kr.co.hyeonyoung;
+package kr.co.hyeonyoung.dao;
 
 import java.sql.SQLException;
 
 public class UserDaoTest {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException{
-		ConnectionMaker connectionMaker = new DConnectionMaker();
-		
-		UserDao dao = new UserDao(connectionMaker);
+		UserDao dao = new DaoFactory().userDao();
 		
 		User user = new User();
-		user.setId("cherry");
-		user.setName("hyeonyoung");
-		user.setPassword("1111");
+		user.setId("puple");
+		user.setName("hyerin");
+		user.setPassword("2222");
 		
 		dao.add(user);
 		
@@ -27,6 +25,7 @@ public class UserDaoTest {
 		/*UserDao dao = new UserDao();
 		User user = new User();
 		user.setId("cherry");
+		
 		user.setName("hyeonyoung");
 		user.setPassword("1111");
 		
