@@ -8,14 +8,19 @@ import java.sql.SQLException;
 
 import org.springframework.core.env.SystemEnvironmentPropertySource;
 
-public class UserDao {
-	private Connection getConnection() throws ClassNotFoundException, SQLException {
+public abstract class UserDao {
+	// 방식1
+	/*private Connection getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection c = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/Spring?useUnicode=true&characterEncoding=UTF-8", "root", "12345678");
 		
 		return c;
-	}
+	}*/
+	
+	// 방식2
+	/*public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
+	
 	public void add(User user) throws ClassNotFoundException, SQLException {
 		Connection c = getConnection();
 		PreparedStatement ps = c.prepareStatement(
@@ -49,9 +54,51 @@ public class UserDao {
 		ps.close();
 		return user;
 	}
+	*/
+	
+	// 방식3
+	private ConnectionMaker connectionMaker;
+	
+	public UserDao() {
+		connectionMaker = new DConnectionMaker();
+	}
+	
+	public void add(User user) throws ClassNotFoundException, SQLException {
+		Connection c = connectionMaker.makeConnection();
+		PreparedStatement ps = c.prepareStatement(
+				"insert into users(id, name, password) values(?,?,?)");
+		ps.setString(1, user.getId());
+		ps.setString(2, user.getName());
+		ps.setString(3, user.getPassword());
+		
+		ps.executeUpdate();
+		
+		ps.close();	
+	}
+	
+	public User get(String id) throws ClassNotFoundException, SQLException {
+		Connection c = connectionMaker.makeConnection();
+		PreparedStatement ps = c.prepareStatement(
+				"select * from users where id=?");
+		
+		ps.setString(1, id);
+		
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		
+		User user = new User();
+		user.setId(rs.getString("id"));
+		user.setName(rs.getString("name"));
+		user.setPassword(rs.getString("password"));
+		
+		rs.close();
+		ps.close();
+		return user;
+	}
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException{
-		UserDao dao = new UserDao();
+		// 방식 1
+		/*UserDao dao = new UserDao();
 		User user = new User();
 		user.setId("cherry");
 		user.setName("hyeonyoung");
@@ -65,6 +112,6 @@ public class UserDao {
 		
 		System.out.println(user2.getName());
 		System.out.println(user2.getPassword());
-		System.out.println(user2.getId() + "조회성공");
+		System.out.println(user2.getId() + "조회성공");*/
 	}
 }
