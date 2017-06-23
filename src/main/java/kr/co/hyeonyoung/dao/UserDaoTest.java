@@ -10,12 +10,23 @@ import javax.naming.Context;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/*SpringJUnit4ClassRunner는 왜 자바에서 자동적으로 import해주지 않는 것일까?*/
+// - 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations="kr/co/hyeonyoung/dao/applicationContext.xml")
 public class UserDaoTest {
+	@Autowired
+	private ApplicationContext context;
 	private UserDao dao;
 	private User user1;
 	private User user2;
@@ -33,7 +44,7 @@ public class UserDaoTest {
 	@Before
 	public void setUp() {
 		ApplicationContext context = new GenericXmlApplicationContext("kr/co/hyeonyoung/dao/applicationContext.xml");
-		this.dao = context.getBean("userDao", UserDao.class);
+		this.dao = this.context.getBean("userDao", UserDao.class);
 		
 		this.user1 = new User("aaa", "aa", "1234");
 		this.user2 = new User("bbb", "bb", "12345");
