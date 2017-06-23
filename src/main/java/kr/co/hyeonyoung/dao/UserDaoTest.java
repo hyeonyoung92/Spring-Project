@@ -7,21 +7,36 @@ import java.sql.SQLException;
 
 import javax.naming.Context;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 public class UserDaoTest {
+	private UserDao dao;
+	
+	@Before
+	public void setUp() {
+		ApplicationContext context = new GenericXmlApplicationContext("kr/co/hyeonyoung/dao/applicationContext.xml");
+		this.dao = context.getBean("userDao", UserDao.class);
+	} 
+	/*// id 값에 해당하는 사용자 정보가 없다면?
+	@Test(expected=EmptyResultDataAccessException.class)
+	public void getUserFailure() throws SQLException, ClassNotFoundException {
+		
+		dao.deleteAll();
+		assertThat(dao.getCount(), is(0));
+		
+		dao.get("unknown_id");
+		
+	}*/
+	
 	//=================방식3====================================
 	@Test
 	public void addAndGet() throws SQLException, ClassNotFoundException {
-		ApplicationContext context = new GenericXmlApplicationContext("kr/co/hyeonyoung/dao/applicationContext.xml");
-		
-		UserDao dao = context.getBean("userDao", UserDao.class);
-		
-		
 		// 방식3-1
 		/*// 모든 테이블의 레코드 삭제
 		dao.deleteAll();
