@@ -108,11 +108,35 @@ public class UserDao {
 		return user;
 	}
 	
+	// 테이블의 모든 레코드 삭제
 	public void deleteAll() throws SQLException {
 		Connection c = dataSource.getConnection();
 		
 		PreparedStatement ps = c.prepareStatement("delete from users");
 		
+		ps.executeUpdate();
+		
+		ps.close();
+		c.close();
 	}
+	
+	// 테이블의 레코드 수 반환
+	public int getCount() throws SQLException {
+		Connection c = dataSource.getConnection();
+		
+		PreparedStatement ps = c.prepareStatement("select count(*) from users");
+		
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		int count = rs.getInt(1);
+		
+		rs.close();
+		ps.close();
+		c.close();
+		
+		return count;
+	}
+	
+	
 	
 }

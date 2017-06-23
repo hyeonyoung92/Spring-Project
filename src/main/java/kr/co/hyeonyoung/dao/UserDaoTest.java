@@ -20,17 +20,26 @@ public class UserDaoTest {
 		ApplicationContext context = new GenericXmlApplicationContext("kr/co/hyeonyoung/dao/applicationContext.xml");
 		
 		UserDao dao = context.getBean("userDao", UserDao.class);
+		
+		// 모든 테이블의 레코드 삭제
+		dao.deleteAll();
+		assertThat(dao.getCount(), is(0));
+		
+		
 		User user = new User();
-		user.setId("hy.lee2");
+		user.setId("hy.lee");
 		user.setName("hylee");
 		user.setPassword("1234");
 		
 		dao.add(user);
+		assertThat(dao.getCount(), is(1));
 		
 		User user2 = dao.get(user.getId());
 		
 		assertThat(user2.getName(), is(user.getName()));
 		assertThat(user2.getPassword(), is(user.getPassword()));
+		
+		
 	}
 	
 	public static void main(String[] args) {
