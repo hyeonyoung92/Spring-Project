@@ -83,6 +83,7 @@ public class UserDao {
 		ps.setString(3, user.getPassword());
 		
 		ps.executeUpdate();
+			
 		
 		ps.close();	
 	}
