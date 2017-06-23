@@ -107,4 +107,12 @@ public class UserDao {
 		ps.close();
 		return user;
 	}
+	
+	public void deleteAll() throws SQLException {
+		Connection c = dataSource.getConnection();
+		
+		PreparedStatement ps = c.prepareStatement("delete from users");
+		
+	}
+	
 }
