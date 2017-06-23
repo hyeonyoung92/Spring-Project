@@ -21,7 +21,9 @@ public class UserDaoTest {
 		
 		UserDao dao = context.getBean("userDao", UserDao.class);
 		
-		// 모든 테이블의 레코드 삭제
+		
+		// 방식3-1
+		/*// 모든 테이블의 레코드 삭제
 		dao.deleteAll();
 		assertThat(dao.getCount(), is(0));
 		
@@ -38,7 +40,23 @@ public class UserDaoTest {
 		
 		assertThat(user2.getName(), is(user.getName()));
 		assertThat(user2.getPassword(), is(user.getPassword()));
+		*/
+		// 방식3-2
+		User user1 = new User("hylee", "이혀녕", "1234");
+		User user2 = new User("abcd", "aaa", "1234");
+		User user3 = new User("efgh", "bbb", "1234");
 		
+		dao.deleteAll();
+		assertThat(dao.getCount(), is(0));
+		
+		dao.add(user1);
+		assertThat(dao.getCount(), is(1));
+		
+		dao.add(user2);
+		assertThat(dao.getCount(), is(2));
+		
+		dao.add(user3);
+		assertThat(dao.getCount(), is(3));
 		
 	}
 	
