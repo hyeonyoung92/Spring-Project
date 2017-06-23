@@ -17,11 +17,27 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 public class UserDaoTest {
 	private UserDao dao;
+	private User user1;
+	private User user2;
+	private User user3;
 	
+	/*
+		1. 테스트 클래스에서 @Test가 붙은 public이고 void형이며 파라미터가 없는 테스트 메소드를 모두 찾는다.
+		2. 테스트 클래스의 오브젝트를 하나 만든다.
+		3. @Before가 붙은 메소드가 있으면 실행한다.
+		4. @Test가 붙은 메소드를 하나 호출하고 테스트 결과를 저장해둔다.
+		5. @After가 붙은 메소드가 있으면 실행한다.
+		6. 나머지 테스트 메소드에 대해 2~5번을 반복한다.
+		7. 모든 테스트의 결과를 종합해서 돌려준다.
+	*/
 	@Before
 	public void setUp() {
 		ApplicationContext context = new GenericXmlApplicationContext("kr/co/hyeonyoung/dao/applicationContext.xml");
 		this.dao = context.getBean("userDao", UserDao.class);
+		
+		this.user1 = new User("aaa", "aa", "1234");
+		this.user2 = new User("bbb", "bb", "12345");
+		this.user3 = new User("ccc", "cc", "123456");
 	} 
 	/*// id 값에 해당하는 사용자 정보가 없다면?
 	@Test(expected=EmptyResultDataAccessException.class)
@@ -56,10 +72,10 @@ public class UserDaoTest {
 		assertThat(user2.getName(), is(user.getName()));
 		assertThat(user2.getPassword(), is(user.getPassword()));
 		*/
-		// 방식3-2 -> 방식3-3
+		/*// 방식3-2 -> 방식3-3
 		User user1 = new User("aaaa", "bbb", "1234");
 		User user2 = new User("bbbb", "aaa", "1234");
-		
+		*/
 		dao.deleteAll();
 		assertThat(dao.getCount(), is(0));
 		
